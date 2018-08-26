@@ -89,12 +89,13 @@ public class Main {
 
         String fileName = "testFile.txt";
         try{
-            FileOutputStream fs = new FileOutputStream(fileName);
-            ObjectOutputStream os = new ObjectOutputStream(fs);
+            FileWriter fw = new FileWriter(fileName);
+            BufferedWriter bw = new BufferedWriter(fw);
 
             for (Player player : list) {
-                os.writeObject(player.getFirstName()+ " " + player.getLastName() +" " + player.getScore() + "\n");
+                bw.write(player.getFirstName()+ " " + player.getLastName() +" " + player.getScore() + "\n");
             }
+            bw.close();
 
         } catch (IOException e) {
             e.printStackTrace();
