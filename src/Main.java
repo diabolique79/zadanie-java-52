@@ -23,7 +23,7 @@ public class Main {
         Scanner scan = new Scanner(System.in);
         String firstName = "";
         String lastName = "";
-        String score = "";
+        int score;
         boolean end = false;
         int z = 0;
 
@@ -41,7 +41,8 @@ public class Main {
                 lastName = scan.nextLine();
 
                 System.out.println("Wprowadź wynik: ");
-                score = scan.nextLine();
+                score = scan.nextInt();
+                scan.nextLine();
                 list.add(new Player(firstName, lastName, score));
                 z++;
 

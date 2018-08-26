@@ -6,10 +6,10 @@ public class Player implements Comparable<Player> {
 
     private String firstName;
     private String lastName;
-    private String score;
+    private int score;
 
 
-    public Player(String firstName, String lastName, String score) {
+    public Player(String firstName, String lastName, int score) {
         this.firstName = firstName;
         this.lastName = lastName;
         this.score = score;
@@ -23,7 +23,7 @@ public class Player implements Comparable<Player> {
         return lastName;
     }
 
-    public String getScore() {
+    public int getScore() {
         return score;
     }
 
@@ -53,7 +53,11 @@ public class Player implements Comparable<Player> {
         @Override
         public int compare(Player o1, Player o2) {
 
-            return o1.getScore().compareTo(o2.getScore());
+            if(o2 == null) return -1;
+            if(o1.getScore() > o2.getScore()) return 1;
+            else if(o1.getScore() < o2.getScore()) return -1;
+            else return 0;
+
         }
     }
 }
