@@ -1,36 +1,59 @@
-public class Player {
+import java.util.ArrayList;
+import java.util.Comparator;
+import java.util.Scanner;
+
+public class Player implements Comparable<Player> {
 
     private String firstName;
     private String lastName;
-    private int score;
+    private String score;
+
+
+    public Player(String firstName, String lastName, String score) {
+        this.firstName = firstName;
+        this.lastName = lastName;
+        this.score = score;
+    }
 
     public String getFirstName() {
         return firstName;
-    }
-
-    public void setFirstName(String firstName) {
-        this.firstName = firstName;
     }
 
     public String getLastName() {
         return lastName;
     }
 
-    public void setLastName(String lastName) {
-        this.lastName = lastName;
-    }
-
-    public int getScore() {
+    public String getScore() {
         return score;
     }
 
-    public void setScore(int score) {
-        this.score = score;
+    @Override
+    public int compareTo(Player o) {
+        return 0;
     }
 
-    public Player(String firstName, String lastName, int score) {
-        this.firstName = firstName;
-        this.lastName = lastName;
-        this.score = score;
+    public static class PlayerNameComparator implements Comparator<Player>{
+
+        @Override
+        public int compare(Player o1, Player o2) {
+            return o1.getFirstName().compareTo(o2.getFirstName());
+        }
+    }
+
+    public static class PlayerLastNameComparator implements Comparator<Player>{
+
+        @Override
+        public int compare(Player o1, Player o2) {
+            return o1.getLastName().compareTo(o2.getLastName());
+        }
+    }
+
+    public static class PlayerScoreComparator implements Comparator<Player>{
+
+        @Override
+        public int compare(Player o1, Player o2) {
+
+            return o1.getScore().compareTo(o2.getScore());
+        }
     }
 }

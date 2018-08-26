@@ -1,52 +1,110 @@
-import java.io.BufferedWriter;
-import java.io.FileNotFoundException;
-import java.io.IOException;
-import java.io.PrintWriter;
+
+import java.io.*;
 import java.util.*;
 
 public class Main {
+
+    public static final String NAME = "Imię";
+    public static final String LASTNAME = "Nazwisko";
+    public static final String SCORE = "wynik";
+
     public static void main(String[] args) throws FileNotFoundException {
 
-        System.out.println("Wprowadź dane pierwszego zawodnika: ");
+        Scanner sc = new Scanner(System.in);
+        ArrayList<Player> list = new ArrayList<>();
+        wczytajDane(sc, list);
+        sortMethod(sc, list);
+        fileWriter(list);
+
+    }
+
+    public static void wczytajDane(Scanner sc, ArrayList<Player> list) {
+
         Scanner scan = new Scanner(System.in);
-        List<Player> players = new ArrayList();
+        String firstName = "";
+        String lastName = "";
+        String score = "";
+        boolean end = false;
         int z = 0;
-        PrintWriter file = new PrintWriter("dane.csv");
-        BufferedWriter bw = new BufferedWriter(file);
-        String firstName;
-        String lastName;
-        Integer score = 0;
-        String napis = "0";
 
-        try {
-            while (!napis.equals("stop")) {
+        do {
 
-                System.out.println("Wprowadź imię i nazwisko oraz zdobyte punkty: ");
-                napis = scan.nextLine();
-                String tab[] = napis.split(" ");
-                firstName = tab[0];
-                lastName = tab[1];
-                score = Integer.parseInt(tab[2]);
-                System.out.println(tab[0] + " " + tab[1] + " " + tab[2]);
-                players.add(new Player(firstName, lastName, score));
+
+            System.out.println("Wprowadź imię lub stop: /Stop zakończy działanie programu/ ");
+            firstName = scan.nextLine();
+
+            if (firstName.equalsIgnoreCase("stop")) {
+
+                end = true;
+            } else {
+                System.out.println("Wprowadź nazwisko: ");
+                lastName = scan.nextLine();
+
+                System.out.println("Wprowadź wynik: ");
+                score = scan.nextLine();
+                list.add(new Player(firstName, lastName, score));
                 z++;
-                for (int i = 0; i < players.size(); i++) {
-                    bw.write(firstName + "," + lastName + "," + score);
-                    bw.newLine();
-                }
-                bw.close();
+
 
             }
-        }catch (ArrayIndexOutOfBoundsException e){
 
-            System.out.println("Niepoprawny parametr. ");
+        } while (!end);
+
+    }
+
+    public static void sortMethod(Scanner sc, ArrayList<Player> list) {
+
+        System.out.println("Wybierz metodę sortowania: /Wpisz Imię lub Nazwisko lub Wynik/");
+        String name = sc.nextLine();
+
+        if (name.equalsIgnoreCase(Main.NAME)) {
+
+            Collections.sort(list, new Player.PlayerNameComparator());
+            printData(list);
+        }
+        if (name.equalsIgnoreCase(Main.LASTNAME)) {
+
+            Collections.sort(list, new Player.PlayerLastNameComparator());
+            printData(list);
+        }
+        if (name.equalsIgnoreCase(Main.SCORE)) {
+
+            Collections.sort(list, new Player.PlayerScoreComparator());
+            printData(list);
+        }
+
+    }
+
+    public static void printData(ArrayList<Player> list) {
+
+        for (Player player : list) {
+            System.out.println(player.getFirstName() + " " + player.getLastName() + " " + player.getScore());
+
+        }
+
+    }
+
+    public static void fileWriter(ArrayList<Player> list){
+
+        String fileName = "testFile.txt";
+        try{
+            FileOutputStream fs = new FileOutputStream(fileName);
+            ObjectOutputStream os = new ObjectOutputStream(fs);
+
+            for (Player player : list) {
+                os.writeObject(player.getFirstName()+ " " + player.getLastName() +" " + player.getScore() + "\n");
+            }
+
         } catch (IOException e) {
             e.printStackTrace();
         }
 
-
+        System.out.println("Zapisano do pliku.");
     }
 
 
 }
+
+
+
 
